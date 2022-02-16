@@ -1,6 +1,8 @@
 package runner
 
 import (
+	"os"
+
 	"github.com/kubeshop/testkube/pkg/api/v1/testkube"
 	"github.com/kubeshop/testkube/pkg/executor/content"
 )
@@ -8,7 +10,7 @@ import (
 // NewRunner creates init runner
 func NewRunner() *InitRunner {
 	return &InitRunner{
-		Fetcher: content.NewFetcher(),
+		Fetcher: content.NewFetcher(os.Getenv("RUNNER_DATADIR")),
 	}
 }
 
