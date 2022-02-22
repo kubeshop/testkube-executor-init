@@ -1,7 +1,9 @@
 package runner
 
 import (
+	"io/ioutil"
 	"os"
+	"path/filepath"
 
 	"github.com/kubeshop/testkube/pkg/api/v1/testkube"
 	"github.com/kubeshop/testkube/pkg/executor/content"
@@ -9,14 +11,17 @@ import (
 
 // NewRunner creates init runner
 func NewRunner() *InitRunner {
+	dir := os.Getenv("RUNNER_DATADIR")
 	return &InitRunner{
-		Fetcher: content.NewFetcher(os.Getenv("RUNNER_DATADIR")),
+		Fetcher: content.NewFetcher(dir),
+		dir:     dir,
 	}
 }
 
 // InitRunner prepares data for executor
 type InitRunner struct {
 	Fetcher content.ContentFetcher
+	dir     string
 }
 
 // Run prepares data for executor
@@ -27,6 +32,13 @@ func (r *InitRunner) Run(execution testkube.Execution) (result testkube.Executio
 		if execution.Content != nil && execution.Content.Repository != nil {
 			execution.Content.Repository.Username = gitUsername
 			execution.Content.Repository.Token = gitToken
+		}
+	}
+
+	if execution.ParamsFile != "" {
+		filename := "params-file"
+		if err = ioutil.WriteFile(filepath.Join(r.dir, filename), []byte(execution.ParamsFile), 0666); err != nil {
+			return result, err
 		}
 	}
 
