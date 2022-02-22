@@ -1,9 +1,9 @@
-module github.com/kubeshop/testkube-executor-template
+module github.com/kubeshop/testkube-executor-init
 
 go 1.17
 
 require (
-	github.com/kubeshop/testkube v0.8.6-beta010
+	github.com/kubeshop/testkube v0.9.10-beta001
 	github.com/stretchr/testify v1.7.0
 )
 
