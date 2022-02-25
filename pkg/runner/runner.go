@@ -7,6 +7,7 @@ import (
 
 	"github.com/kubeshop/testkube/pkg/api/v1/testkube"
 	"github.com/kubeshop/testkube/pkg/executor/content"
+	"github.com/kubeshop/testkube/pkg/executor/output"
 )
 
 // NewRunner creates init runner
@@ -47,8 +48,7 @@ func (r *InitRunner) Run(execution testkube.Execution) (result testkube.Executio
 		return result, err
 	}
 
-	return testkube.ExecutionResult{
-		Status: testkube.StatusPtr(testkube.SUCCESS_ExecutionStatus),
-		Output: "created content path: " + path,
-	}, nil
+	output.PrintLog("created content path: " + path)
+
+	return testkube.NewPendingExecutionResult(), nil
 }
