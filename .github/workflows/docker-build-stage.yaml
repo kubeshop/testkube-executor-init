@@ -2,7 +2,7 @@ name: Docker images building and pushing
 on:
   push:
     branches:
-      - trigger_helm-deploy-to-stage
+      - main
 
 jobs:
   docker:
@@ -28,7 +28,7 @@ jobs:
           path: |
             ~/go/pkg/mod
             ~/.cache/go-build
-          key: ${{ runner.os }}-go-build-${{ hashFiles('**/go.sum') }}
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
           restore-keys: |
             ${{ runner.os }}-go-
 
