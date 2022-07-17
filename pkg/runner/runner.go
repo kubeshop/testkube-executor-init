@@ -36,9 +36,9 @@ func (r *InitRunner) Run(execution testkube.Execution) (result testkube.Executio
 		}
 	}
 
-	if execution.ParamsFile != "" {
+	if execution.VariablesFile != "" {
 		filename := "params-file"
-		if err = ioutil.WriteFile(filepath.Join(r.dir, filename), []byte(execution.ParamsFile), 0666); err != nil {
+		if err = ioutil.WriteFile(filepath.Join(r.dir, filename), []byte(execution.VariablesFile), 0666); err != nil {
 			return result, err
 		}
 	}
