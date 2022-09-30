@@ -1,11 +1,12 @@
 # syntax=docker/dockerfile:1
-FROM golang:1.18
+FROM --platform=$BUILDPLATFORM golang:1.18
 WORKDIR /build
 COPY . .
 ENV CGO_ENABLED=0 
 ENV GOOS=linux
+ARG TARGETOS TARGETARCH
 
-RUN cd cmd/agent;go build -o /runner -mod mod -a .
+RUN cd cmd/agent;GOOS=$TARGETOS GOARCH=$TARGETARCH go build -o /runner -mod mod -a .
 
 FROM alpine
 RUN apk --no-cache add ca-certificates git
