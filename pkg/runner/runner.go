@@ -1,7 +1,6 @@
 package runner
 
 import (
-	"log"
 	"os"
 	"path/filepath"
 
@@ -51,7 +50,7 @@ func (r *InitRunner) Run(execution testkube.Execution) (result testkube.Executio
 
 	_, err = executor.Run(r.dir, "chmod", nil, []string{"-R", "777", "."}...)
 	if err != nil {
-		log.Fatal(err)
+		return result, err
 	}
 
 	output.PrintLog("created content path: " + path)
