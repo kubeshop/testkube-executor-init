@@ -26,3 +26,6 @@ Chart.lock
 bin/
 site
 dist/
+
+# Test output
+pkg/runner/testdir/test-content
