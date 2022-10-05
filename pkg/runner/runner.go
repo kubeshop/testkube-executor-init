@@ -1,10 +1,12 @@
 package runner
 
 import (
+	"log"
 	"os"
 	"path/filepath"
 
 	"github.com/kubeshop/testkube/pkg/api/v1/testkube"
+	"github.com/kubeshop/testkube/pkg/executor"
 	"github.com/kubeshop/testkube/pkg/executor/content"
 	"github.com/kubeshop/testkube/pkg/executor/output"
 )
@@ -45,6 +47,11 @@ func (r *InitRunner) Run(execution testkube.Execution) (result testkube.Executio
 	path, err := r.Fetcher.Fetch(execution.Content)
 	if err != nil {
 		return result, err
+	}
+
+	_, err = executor.Run(r.dir, "chmod", nil, []string{"-R", "777", "."}...)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 	output.PrintLog("created content path: " + path)
