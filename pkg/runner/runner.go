@@ -48,6 +48,12 @@ func (r *InitRunner) Run(execution testkube.Execution) (result testkube.Executio
 		return result, err
 	}
 
+	// add copy files
+	err = content.PlaceFiles(execution.CopyFiles)
+	if err != nil {
+		return result, err
+	}
+
 	_, err = executor.Run(r.dir, "chmod", nil, []string{"-R", "777", "."}...)
 	if err != nil {
 		return result, err
