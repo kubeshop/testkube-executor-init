@@ -26,4 +26,31 @@ func TestRun(t *testing.T) {
 		assert.Equal(t, result.Status, testkube.ExecutionStatusRunning)
 	})
 
+	t.Run("runner should place files when copyFiles is set", func(t *testing.T) {
+		// given
+		runner := NewRunner()
+		execution := testkube.NewQueuedExecution()
+		execution.Content = testkube.NewStringTestContent("hello I'm  test content")
+		filePath := "/tmp/file1"
+		fileContent := "file-content1"
+		execution.CopyFiles = map[string]string{
+			filePath: fileContent,
+		}
+
+		// when
+		result, err := runner.Run(*execution)
+
+		// then
+		assert.NoError(t, err)
+		assert.Equal(t, result.Status, testkube.ExecutionStatusRunning)
+
+		gotContent, err := os.ReadFile(filePath)
+		assert.NoError(t, err)
+		assert.Equal(t, fileContent, string(gotContent))
+
+		err = os.Remove(filePath)
+		// if there's an error, the file needs to be removed manually
+		assert.NoError(t, err)
+	})
+
 }
