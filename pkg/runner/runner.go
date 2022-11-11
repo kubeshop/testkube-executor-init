@@ -1,14 +1,25 @@
 package runner
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 
+	"github.com/kelseyhightower/envconfig"
 	"github.com/kubeshop/testkube/pkg/api/v1/testkube"
 	"github.com/kubeshop/testkube/pkg/executor"
 	"github.com/kubeshop/testkube/pkg/executor/content"
 	"github.com/kubeshop/testkube/pkg/executor/output"
 )
+
+type Params struct {
+	Endpoint        string // RUNNER_ENDPOINT
+	AccessKeyID     string // RUNNER_ACCESSKEYID
+	SecretAccessKey string // RUNNER_SECRETACCESSKEY
+	Location        string // RUNNER_LOCATION
+	Token           string // RUNNER_TOKEN
+	Ssl             bool   // RUNNER_SSL
+}
 
 // NewRunner creates init runner
 func NewRunner() *InitRunner {
@@ -27,6 +38,12 @@ type InitRunner struct {
 
 // Run prepares data for executor
 func (r *InitRunner) Run(execution testkube.Execution) (result testkube.ExecutionResult, err error) {
+	var params Params
+	err = envconfig.Process("runner", &params)
+	if err != nil {
+		return result, fmt.Errorf("could not read environment variables: %w", err)
+	}
+
 	gitUsername := os.Getenv("RUNNER_GITUSERNAME")
 	gitToken := os.Getenv("RUNNER_GITTOKEN")
 	if gitUsername != "" && gitToken != "" {
@@ -48,10 +65,14 @@ func (r *InitRunner) Run(execution testkube.Execution) (result testkube.Executio
 		return result, err
 	}
 
-	// add copy files
-	err = content.PlaceFiles(execution.CopyFiles)
-	if err != nil {
-		return result, err
+	// add copy files in case object storage is set
+	if params.Endpoint != "" {
+		fp := content.NewCopyFilesPlacer(params.Endpoint, params.AccessKeyID, params.SecretAccessKey, params.Location, params.Token, params.Ssl)
+		buckets := []string{fmt.Sprintf("test-%s", execution.TestName), fmt.Sprintf("execution-%s", execution.Name)}
+		err = fp.PlaceFiles(buckets)
+		if err != nil {
+			return result, err
+		}
 	}
 
 	_, err = executor.Run(r.dir, "chmod", nil, []string{"-R", "777", "."}...)
