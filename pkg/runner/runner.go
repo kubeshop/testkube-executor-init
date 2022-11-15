@@ -68,8 +68,7 @@ func (r *InitRunner) Run(execution testkube.Execution) (result testkube.Executio
 	// add copy files in case object storage is set
 	if params.Endpoint != "" {
 		fp := content.NewCopyFilesPlacer(params.Endpoint, params.AccessKeyID, params.SecretAccessKey, params.Location, params.Token, params.Ssl)
-		buckets := []string{fmt.Sprintf("test-%s", execution.TestName), fmt.Sprintf("execution-%s", execution.Name)}
-		err = fp.PlaceFiles(buckets)
+		err = fp.PlaceFiles(execution.TestName, execution.Name)
 		if err != nil {
 			return result, err
 		}
