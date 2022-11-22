@@ -116,6 +116,8 @@ github.com/kubeshop/testkube v1.6.40-0.20221116140531-494e19290128 h1:OlK1cyz2Op
 github.com/kubeshop/testkube v1.6.40-0.20221116140531-494e19290128/go.mod h1:md6n2fd1CFNJHUmRu7oqq8vZWtNhN4SSTIvvv9HJSgI=
 github.com/kubeshop/testkube v1.6.40-0.20221116141345-447582b382e7 h1:cHIsCT6oaXyYW2TYmqe6P2v1HH1hYn1dvX4xyyhatrY=
 github.com/kubeshop/testkube v1.6.40-0.20221116141345-447582b382e7/go.mod h1:md6n2fd1CFNJHUmRu7oqq8vZWtNhN4SSTIvvv9HJSgI=
+github.com/kubeshop/testkube v1.7.10 h1:s1922miiDjw4Lr/bfGupZNEEBpA8owLPX/24B07tEPI=
+github.com/kubeshop/testkube v1.7.10/go.mod h1:md6n2fd1CFNJHUmRu7oqq8vZWtNhN4SSTIvvv9HJSgI=
 github.com/mailru/easyjson v0.0.0-20190614124828-94de47d64c63/go.mod h1:C1wdFJiN94OJF2b5HbByQZoLdCWB1Yqtg26g4irojpc=
 github.com/mailru/easyjson v0.0.0-20190626092158-b2ccc519800e/go.mod h1:C1wdFJiN94OJF2b5HbByQZoLdCWB1Yqtg26g4irojpc=
 github.com/mailru/easyjson v0.7.7 h1:UGYAvKxe3sBsEDzO8ZeWOSlIQfWFlxbzLZe7hwFURr0=
