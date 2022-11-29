@@ -79,6 +79,13 @@ func (r *InitRunner) Run(execution testkube.Execution) (result testkube.Executio
 		return result, err
 	}
 
+	if execution.ArtifactRequest != nil {
+		_, err = executor.Run(execution.ArtifactRequest.VolumeMountPath, "chmod", nil, []string{"-R", "777", "."}...)
+		if err != nil {
+			return result, err
+		}
+	}
+
 	output.PrintLog("created content path: " + path)
 
 	return testkube.NewPendingExecutionResult(), nil
