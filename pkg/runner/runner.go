@@ -70,7 +70,7 @@ func (r *InitRunner) Run(execution testkube.Execution) (result testkube.Executio
 		fp := content.NewCopyFilesPlacer(params.Endpoint, params.AccessKeyID, params.SecretAccessKey, params.Location, params.Token, params.Ssl)
 		err = fp.PlaceFiles(execution.TestName, execution.BucketName)
 		if err != nil {
-			return result, err
+			output.PrintLog(fmt.Sprintf("could not place bucket: %s", err.Error()))
 		}
 	}
 
