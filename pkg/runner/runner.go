@@ -10,6 +10,7 @@ import (
 	"github.com/kubeshop/testkube/pkg/executor"
 	"github.com/kubeshop/testkube/pkg/executor/content"
 	"github.com/kubeshop/testkube/pkg/executor/output"
+	"github.com/kubeshop/testkube/pkg/executor/runner"
 )
 
 type Params struct {
@@ -46,7 +47,7 @@ func (r *InitRunner) Run(execution testkube.Execution) (result testkube.Executio
 
 	gitUsername := os.Getenv("RUNNER_GITUSERNAME")
 	gitToken := os.Getenv("RUNNER_GITTOKEN")
-	if gitUsername != "" && gitToken != "" {
+	if gitUsername != "" || gitToken != "" {
 		if execution.Content != nil && execution.Content.Repository != nil {
 			execution.Content.Repository.Username = gitUsername
 			execution.Content.Repository.Token = gitToken
@@ -89,4 +90,9 @@ func (r *InitRunner) Run(execution testkube.Execution) (result testkube.Executio
 	output.PrintLog("created content path: " + path)
 
 	return testkube.NewPendingExecutionResult(), nil
+}
+
+// GetType returns runner type
+func (r *InitRunner) GetType() runner.Type {
+	return runner.TypeInit
 }
