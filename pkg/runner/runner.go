@@ -77,13 +77,13 @@ func (r *InitRunner) Run(execution testkube.Execution) (result testkube.Executio
 
 	_, err = executor.Run(r.dir, "chmod", nil, []string{"-R", "777", "."}...)
 	if err != nil {
-		return result, err
+		output.PrintLog(fmt.Sprintf("could not chmod for data dir: %s", err.Error()))
 	}
 
 	if execution.ArtifactRequest != nil {
 		_, err = executor.Run(execution.ArtifactRequest.VolumeMountPath, "chmod", nil, []string{"-R", "777", "."}...)
 		if err != nil {
-			return result, err
+			output.PrintLog(fmt.Sprintf("could not chmod for artifacts dir: %s", err.Error()))
 		}
 	}
 
