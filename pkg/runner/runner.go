@@ -54,6 +54,7 @@ func (r *InitRunner) Run(execution testkube.Execution) (result testkube.Executio
 	gitUsername := params.GitUsername
 	gitToken := params.GitToken
 	output.PrintEvent(fmt.Sprintf("%s Environment variables read successfully", ui.IconCheckMark))
+	printParams(params)
 
 	if gitUsername != "" && gitToken != "" {
 		if execution.Content != nil && execution.Content.Repository != nil {
@@ -74,7 +75,7 @@ func (r *InitRunner) Run(execution testkube.Execution) (result testkube.Executio
 	output.PrintEvent(fmt.Sprintf("%s Fetching test content from %s...", ui.IconBox, execution.Content.Type_))
 	path, err := r.Fetcher.Fetch(execution.Content)
 	if err != nil {
-		return result, err
+		return result, fmt.Errorf("could not fetch test content: %w", err)
 	}
 	output.PrintEvent(fmt.Sprintf("%s Test content fetched to path %s", ui.IconCheckMark, path))
 
@@ -110,4 +111,25 @@ func (r *InitRunner) Run(execution testkube.Execution) (result testkube.Executio
 // GetType returns runner type
 func (r *InitRunner) GetType() runner.Type {
 	return runner.TypeInit
+}
+
+// printParams shows the read parameters in logs
+func printParams(params Params) {
+	output.PrintLog(fmt.Sprintf("RUNNER_ENDPOINT=\"%s\"", params.Endpoint))
+	printSensitiveParam("RUNNER_ACCESSKEYID", params.AccessKeyID)
+	printSensitiveParam("RUNNER_SECRETACCESSKEY", params.SecretAccessKey)
+	output.PrintLog(fmt.Sprintf("RUNNER_LOCATION=\"%s\"", params.Location))
+	printSensitiveParam("RUNNER_TOKEN", params.Token)
+	output.PrintLog(fmt.Sprintf("RUNNER_SSL=%t", params.Ssl))
+	output.PrintLog(fmt.Sprintf("RUNNER_GITUSERNAME=\"%s\"", params.GitUsername))
+	printSensitiveParam("RUNNER_GITTOKEN", params.GitToken)
+}
+
+// printSensitiveParam shows in logs if a parameter is set or not
+func printSensitiveParam(name string, value string) {
+	if len(value) == 0 {
+		output.PrintLog(fmt.Sprintf("%s=\"\"", name))
+	} else {
+		output.PrintLog(fmt.Sprintf("%s=\"********\"", name))
+	}
 }
