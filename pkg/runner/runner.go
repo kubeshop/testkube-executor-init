@@ -68,11 +68,7 @@ func (r *InitRunner) Run(execution testkube.Execution) (result testkube.Executio
 	if params.Endpoint != "" {
 		output.PrintLog(fmt.Sprintf("%s Fetching uploads from object store %s...", ui.IconFile, params.Endpoint))
 		fp := content.NewCopyFilesPlacer(params.Endpoint, params.AccessKeyID, params.SecretAccessKey, params.Location, params.Token, params.Ssl)
-		err = fp.PlaceFiles(execution.TestName, execution.BucketName)
-		if err != nil {
-			output.PrintLog(fmt.Sprintf("%s Could not place bucket: %s", ui.IconCross, err.Error()))
-		}
-		output.PrintLog(fmt.Sprintf("%s Placing uploads succeeded.", ui.IconCheckMark))
+		fp.PlaceFiles(execution.TestName, execution.BucketName)
 	}
 
 	output.PrintLog(fmt.Sprintf("%s Setting up access to files in %s", ui.IconFile, r.dir))
