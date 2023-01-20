@@ -3,7 +3,7 @@ module github.com/kubeshop/testkube-executor-init
 go 1.18
 
 require (
-	github.com/kubeshop/testkube v1.8.32-0.20230119222853-3d39b6f707f9
+	github.com/kubeshop/testkube v1.8.32
 	github.com/stretchr/testify v1.8.1
 )
 
@@ -31,7 +31,7 @@ require (
 	github.com/kelseyhightower/envconfig v1.4.0 // indirect
 	github.com/klauspost/compress v1.15.14 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.3 // indirect
-	github.com/kubeshop/testkube-operator v1.8.9-0.20230119222500-ad4337e56206 // indirect
+	github.com/kubeshop/testkube-operator v1.8.9 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/mattn/go-runewidth v0.0.14 // indirect
 	github.com/minio/md5-simd v1.1.2 // indirect
