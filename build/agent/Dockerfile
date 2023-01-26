@@ -11,5 +11,7 @@ RUN cd cmd/agent;GOOS=$TARGETOS GOARCH=$TARGETARCH go build -o /runner -mod mod 
 FROM alpine
 RUN apk --no-cache add ca-certificates git
 WORKDIR /root/
+RUN git config --global user.name "testkube"
+RUN chmod a=rw /root/.gitconfig
 COPY --from=0 /runner /bin/runner
 ENTRYPOINT ["/bin/runner"]
