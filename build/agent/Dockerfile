@@ -12,6 +12,6 @@ FROM alpine
 RUN apk --no-cache add ca-certificates git
 WORKDIR /root/
 RUN git config --global user.name "testkube"
-RUN chmod 666 /root/.gitconfig
+RUN chmod a=rw /root/.gitconfig
 COPY --from=0 /runner /bin/runner
 ENTRYPOINT ["/bin/runner"]
