@@ -41,7 +41,7 @@ func (r *InitRunner) Run(execution testkube.Execution) (result testkube.Executio
 	gitUsername := params.GitUsername
 	gitToken := params.GitToken
 
-	if gitUsername != "" && gitToken != "" {
+	if gitUsername != "" || gitToken != "" {
 		if execution.Content != nil && execution.Content.Repository != nil {
 			execution.Content.Repository.Username = gitUsername
 			execution.Content.Repository.Token = gitToken
